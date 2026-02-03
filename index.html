@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #fff0f3, #ffe5ec);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Fredoka', sans-serif;
+  overflow: hidden;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+img {
+  width: 200px;
+  max-width: 80vw;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #ff4d6d;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.yes-button {
+  background-color: #4caf50;
+  color: white;
+  animation: pulse 1.4s infinite;
+}
+
+.no-button {
+  background-color: #f44336;
+  color: white;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Success screen */
+.success {
+  display: none;
+  text-align: center;
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Main Screen -->
+<div class="container" id="main">
+  <img src="https://media1.tenor.com/m/owJzjXOIngsAAAAC/milk-mocha.gif" alt="Cute Bear">
+
+  <h1>Shree, will you be my Valentine? 🧸💖</h1>
+
+  <div class="buttons">
+    <button class="yes-button" onclick="handleYes()">Yes 💘</button>
+    <button class="no-button" onclick="handleNo()">No 💔</button>
+  </div>
+</div>
+
+<!-- Success Screen -->
+<div class="container success" id="success">
+  <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Bear Hug">
+  <h1>Knew you would say yes! 🥰🐻💞</h1>
+</div>
+
+<script>
+/* Floating hearts */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = Math.random() * 20 + 15 + "px";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 6000);
+}, 500);
+
+/* No button logic */
+const noMessages = [
+  "Really?? 😳",
+  "Pookie please 🥺",
+  "Just think about it 💭",
+  "You're breaking my heart 💔",
+  "LAST CHANCE 😭"
+];
+
+let messageIndex = 0;
+
+function handleNo() {
+  const noButton = document.querySelector(".no-button");
+  const yesButton = document.querySelector(".yes-button");
+
+  noButton.textContent = noMessages[messageIndex];
+  messageIndex = (messageIndex + 1) % noMessages.length;
+
+  const fontSize = parseFloat(getComputedStyle(yesButton).fontSize);
+  const padding = parseFloat(getComputedStyle(yesButton).paddingTop);
+
+  yesButton.style.fontSize = fontSize * 1.5 + "px";
+  yesButton.style.padding = padding * 1.5 + "px";
+}
+
+/* Yes button logic */
+function handleYes() {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("success").style.display = "block";
+  launchConfetti();
+}
+
+/* Confetti */
+function launchConfetti() {
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor =
+      ["#ff4d6d", "#ffc8dd", "#cdb4db", "#bde0fe"][Math.floor(Math.random()*4)];
+    confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+    document.body.appendChild(confetti);
+
+    setTimeout(() => confetti.remove(), 3000);
+  }
+}
+</script>
+
+</body>
+</html>
